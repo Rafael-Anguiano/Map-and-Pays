@@ -3,17 +3,51 @@
  * Se llega mediante la MainSc y puede redirigir a MapSc
  */
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, TextInput} from 'react-native';
+import {Button, Text, View, Input, Item, Label} from 'native-base';
 
 export default class SecondSc extends React.Component {
     render(){
+        const { navigation } = this.props
         return (
-            <View style={styles.container}>
-                <Text>Here you are in the Second View</Text>
+            <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
+                <View style={{flexDirection:'column',justifyContent:'flex-start', alignItems:'flex-start', height:'50%',margin:50}}>
+                    <Text style={{fontWeight:'bold', fontSize:20}}>Ingresar Dirección</Text>
+                    <Item  floatingLabel underline style={{margin:15, borderBottomColor:'green', width:'95%'}}>
+                        <Label>Dirección</Label>
+                        <Input onChange={this.props.wDirection}/>
+                    </Item>
+                    <Button style={{backgroundColor:'green'}}>
+                        <Text>Guardar</Text>
+                    </Button>
+                </View>
+                <View style={{flexDirection:'row', justifyContent:'center'}}>
+                    <Button onPress={()=>  navigation.navigate('Map')}> 
+                        <Text>Elegir desde el mapa</Text>
+                    </Button>
+                </View>
             </View>
         );
     }
 }
+
+/*
+<Item  floatingLabel underline style={{margin:15, borderBottomColor:'green', width:'95%'}}>
+                        <Label>Dirección</Label>
+                        <Input onChange={this.props.wDirection}/>
+                    </Item>
+
+                    <TextInput 
+                        placeholder='Hola'
+                        onChangeText={()=>{this.props.wDirection}}
+                    />
+
+                    <TextInput 
+                        placeholder='Dirección:'
+                        onChangeText={this.props.wDirection}
+                        style={{fontSize:18}}
+                    />
+*/
 
 const styles = StyleSheet.create({
   container: {
