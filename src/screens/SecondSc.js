@@ -1,16 +1,15 @@
 /**
- * Esta es la Primera pantalla, donde se mostrarán las direcciones agregadas por el usuario,
- * Se reciben las direcciones del MainStack y este a su vez del App.js.
- * Esta pantalla es la primera en mostrarse y redirige a SecondSc.js
+ * En esta pantalla se le pide una dirección escrita al usuario para guardar
+ * Se llega mediante la MainSc y puede redirigir a MapSc
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default class MainSc extends React.Component {
+export default class SecondSc extends React.Component {
     render(){
         return (
             <View style={styles.container}>
-                <Text>Here you are in the main View</Text>
+                <Text>Here you are in the Second View</Text>
             </View>
         );
     }
