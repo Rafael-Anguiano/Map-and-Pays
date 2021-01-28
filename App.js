@@ -16,23 +16,24 @@ export default class App extends React.Component {
     super();
     this.state = { 
       direcciones: [],
-      texto:"",
+      direccion:"",
     }
-  }
-
-  writeDirection = (value) => {
-    console.log(value)
-    //this.setState({texto: value})
-    //alert(this.state.texto)
   }
 
   async componentDidMount() {
     //Estos estilos de "Font" no son necesarios, pero el no tenerlos genera un "warning" en expo.
-    await Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-      ...Ionicons.font,
-    });
+    //await Font.loadAsync({
+    //  Roboto: require('native-base/Fonts/Roboto.ttf'),
+    //  Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+    //  ...Ionicons.font,
+    //});
+  }
+
+  writeDirection = (value) => {
+    alert("Estoy imprimiendo el objeto"+ {value})
+    console.log("Aquí está el valor: " + {value})
+    //this.setState({texto: value})
+    //alert(this.state.texto)
   }
 
   render(){

@@ -15,14 +15,14 @@ export default class SecondSc extends React.Component {
                     <Text style={{fontWeight:'bold', fontSize:20}}>Ingresar Dirección</Text>
                     <Item  floatingLabel underline style={{margin:15, borderBottomColor:'green', width:'95%'}}>
                         <Label>Dirección</Label>
-                        <Input onChange={this.props.wDirection}/>
+                        <Input name="adios" onEndEditing={this.props.hola}/>
                     </Item>
                     <Button style={{backgroundColor:'green'}}>
                         <Text>Guardar</Text>
                     </Button>
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
-                    <Button onPress={()=>  navigation.navigate('Map')}> 
+                    <Button onPress={() => navigation.navigate('Map')}> 
                         <Text>Elegir desde el mapa</Text>
                     </Button>
                 </View>
@@ -47,6 +47,14 @@ export default class SecondSc extends React.Component {
                         onChangeText={this.props.wDirection}
                         style={{fontSize:18}}
                     />
+
+
+    writeDirection = (value) => {
+        alert("Estoy imprimiendo el objeto"+ {value})
+        console.log(value)
+        //this.setState({texto: value})
+        //alert(this.state.texto)
+    }
 */
 
 const styles = StyleSheet.create({

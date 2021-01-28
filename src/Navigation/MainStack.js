@@ -16,14 +16,11 @@ export default class MainStack extends React.Component {
         return (
             <NavigationContainer>
                 <Stack.Navigator>
-                    <Stack.Screen name="Main" component={MainSc} options={{title: 'Main Screen', headershown:false}}/>
-                    <Stack.Screen 
-                        name="Second" 
-                        component={SecondSc} 
-                        options={{title: 'Second Screen'}} 
-                        wDirection={this.props.eDireccion}
-                    />
-                    <Stack.Screen name="Map" component={MapSc} options={{title: 'Map Screen', headershown:true}}/>
+                    <Stack.Screen name="Main" component={MainSc} options={{title: 'Main Screen', headerShown:false}}/>
+                    <Stack.Screen name="Second" options={{title: 'Second Screen', headerShown:false}}>
+                        {(props)=><SecondSc {...props} hola={this.props.eDireccion}/>}
+                    </Stack.Screen>
+                    <Stack.Screen name="Map" component={MapSc} options={{title: 'Map Screen', headerShown:true}}/>
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -38,3 +35,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+/*                  <Stack.Screen 
+                        name="Second" 
+                        component={SecondSc} 
+                        options={{title: 'Second Screen'}} 
+                        wDirection={this.props.eDireccion}
+                    />
+*/
