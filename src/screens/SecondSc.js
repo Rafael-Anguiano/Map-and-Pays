@@ -3,12 +3,36 @@
  * Se llega mediante la MainSc y puede redirigir a MapSc
  */
 import React from 'react';
-import { StyleSheet, TextInput} from 'react-native';
+import { StyleSheet, TextInput, Alert} from 'react-native';
+import * as Permissions from 'expo-permissions';
 import {Button, Text, View, Input, Item, Label} from 'native-base';
 
 export default class SecondSc extends React.Component {
+    
+    async grantPermisions() {
+        const { navigation } = this.props  //Para navegación entre pantallas
+        const { status } = await Permissions.askAsync(Permissions.LOCATION); //Petición de permisos
+        
+        if (status !== 'granted') {     //Compara si el permiso se garantizó
+            this.permissionError();
+        } else {
+            navigation.navigate('Map')  //Envía al la pantalla de MAP una vez con el permiso de localización
+            //return Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+        }
+    }
+
+    permissionError = () => { 
+        Alert.alert(
+            "Permissions", //Titulo de la alerta
+            "To see the map please allow the location on Permissions", //Body de la alerta
+            [
+                { text:"OK" } //Opciones del mensaje
+            ],
+            {cancelable:false}
+        )
+    }
+    
     render(){
-        const { navigation } = this.props
         const { wDirection } = this.props
         return (
             <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
@@ -23,7 +47,7 @@ export default class SecondSc extends React.Component {
                     </Button>
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
-                    <Button onPress={() => navigation.navigate('Map')}> 
+                    <Button onPress={() => this.grantPermisions()}> 
                         <Text>Elegir desde el mapa</Text>
                     </Button>
                 </View>
