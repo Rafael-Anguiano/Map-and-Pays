@@ -9,13 +9,14 @@ import {Button, Text, View, Input, Item, Label} from 'native-base';
 export default class SecondSc extends React.Component {
     render(){
         const { navigation } = this.props
+        const { wDirection } = this.props
         return (
             <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
                 <View style={{flexDirection:'column',justifyContent:'flex-start', alignItems:'flex-start', height:'50%',margin:50}}>
                     <Text style={{fontWeight:'bold', fontSize:20}}>Ingresar Dirección</Text>
                     <Item  floatingLabel underline style={{margin:15, borderBottomColor:'green', width:'95%'}}>
                         <Label>Dirección</Label>
-                        <Input name="adios" onEndEditing={this.props.hola}/>
+                        <Input name="adios" onEndEditing={wDirection}/>
                     </Item>
                     <Button style={{backgroundColor:'green'}}>
                         <Text>Guardar</Text>
@@ -47,14 +48,6 @@ export default class SecondSc extends React.Component {
                         onChangeText={this.props.wDirection}
                         style={{fontSize:18}}
                     />
-
-
-    writeDirection = (value) => {
-        alert("Estoy imprimiendo el objeto"+ {value})
-        console.log(value)
-        //this.setState({texto: value})
-        //alert(this.state.texto)
-    }
 */
 
 const styles = StyleSheet.create({

@@ -22,11 +22,11 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     //Estos estilos de "Font" no son necesarios, pero el no tenerlos genera un "warning" en expo.
-    //await Font.loadAsync({
-    //  Roboto: require('native-base/Fonts/Roboto.ttf'),
-    //  Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-    //  ...Ionicons.font,
-    //});
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
   }
 
   writeDirection = (value) => {
