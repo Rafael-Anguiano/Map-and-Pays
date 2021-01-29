@@ -17,9 +17,7 @@ export default class MainStack extends React.Component {
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen name="Main" component={MainSc} options={{title: 'Main Screen', headerShown:false}}/>
-                    <Stack.Screen name="Second" options={{title: 'Second Screen', headerShown:true}}>
-                        {(props)=><SecondSc {...props} wDirection={this.props.eDireccion}/>}
-                    </Stack.Screen>
+                    <Stack.Screen name="Second" component={SecondSc} options={{title: 'Second Screen', headerShown:true}}/>
                     <Stack.Screen name="Map" component={MapSc} options={{title: 'Map Screen', headerShown:true}}/>
                 </Stack.Navigator>
             </NavigationContainer>

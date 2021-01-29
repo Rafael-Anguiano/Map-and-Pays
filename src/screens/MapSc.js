@@ -3,6 +3,7 @@ import MapView, { Marker} from 'react-native-maps';
 import {View, StyleSheet, Dimensions} from 'react-native'
 import * as Location from 'expo-location';
 import { Button , Text} from 'native-base';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default class MapSc extends React.Component {
   
@@ -41,6 +42,7 @@ export default class MapSc extends React.Component {
 
 
   render() {
+    const { navigation } = this.props
     return (
       <View style={styles.container} >
         <MapView 
@@ -78,7 +80,7 @@ export default class MapSc extends React.Component {
           />
         </MapView>
         <View style={{flex:1, margin:15}}>
-          <Button success rounded>
+          <Button success rounded onPress={()=>navigation.navigate('Main')}>
             <Text>Guardar ubicación</Text>
           </Button>
         </View>

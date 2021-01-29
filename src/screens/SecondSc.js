@@ -6,8 +6,10 @@ import React from 'react';
 import { StyleSheet, TextInput, Alert} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {Button, Text, View, Input, Item, Label} from 'native-base';
+import {connect} from 'react-redux'
+import DirectionForm from '../Forms/DirectionForm'
 
-export default class SecondSc extends React.Component {
+class SecondSc extends React.Component {
     
     async grantPermisions() {
         const { navigation } = this.props  //Para navegación entre pantallas
@@ -33,18 +35,12 @@ export default class SecondSc extends React.Component {
     }
     
     render(){
-        const { wDirection } = this.props
+        console.log(this.props.numero)
         return (
             <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
                 <View style={{flexDirection:'column',justifyContent:'flex-start', alignItems:'flex-start', height:'50%',margin:50}}>
                     <Text style={{fontWeight:'bold', fontSize:20}}>Ingresar Dirección</Text>
-                    <Item  floatingLabel underline style={{margin:15, borderBottomColor:'green', width:'95%'}}>
-                        <Label>Dirección</Label>
-                        <Input name="adios" onEndEditing={wDirection}/>
-                    </Item>
-                    <Button style={{backgroundColor:'green'}}>
-                        <Text>Guardar</Text>
-                    </Button>
+                    <DirectionForm/>
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
                     <Button onPress={() => this.grantPermisions()}> 
@@ -55,6 +51,20 @@ export default class SecondSc extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    numero: state.reducerPrueba
+})
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        aumentar: () => {
+            dispatch({type: 'AUMENTAR_REDUCER_PRUEBA'})
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecondSc);
 
 /*
 <Item  floatingLabel underline style={{margin:15, borderBottomColor:'green', width:'95%'}}>

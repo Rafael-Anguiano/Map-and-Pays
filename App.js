@@ -7,8 +7,10 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import {Provider} from 'react-redux'
 //Views Importadas
 import MainStack from './src/Navigation/MainStack';
+import Store from './Store/Store'
 
 export default class App extends React.Component {
   //Aquí están todas las variables globales utilizadas para las direcciones
@@ -38,7 +40,10 @@ export default class App extends React.Component {
 
   render(){
     return (
-      <MainStack eDireccion= {this.writeDirection}/>
+      <Provider store={Store}>
+        <MainStack eDireccion= {this.writeDirection}/>
+      </Provider>
+      
     );
   }
   
