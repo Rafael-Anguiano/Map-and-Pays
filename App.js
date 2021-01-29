@@ -43,7 +43,6 @@ export default class App extends React.Component {
       <Provider store={Store}>
         <MainStack eDireccion= {this.writeDirection}/>
       </Provider>
-      
     );
   }
   

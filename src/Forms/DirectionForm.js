@@ -1,3 +1,8 @@
+/**
+ * Este código es específicamente el encargado de guardar la información ingresada en el Input en el Store,
+ * mediante la ayuda de Redux-Form en el envío de la información.
+ * Este código se carga desde SecondSc 
+ */
 import React, {Component} from 'react'
 import {StyleSheet} from 'react-native'
 import { Field, reduxForm } from 'redux-form'
