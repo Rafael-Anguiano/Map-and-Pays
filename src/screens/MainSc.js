@@ -6,6 +6,8 @@
 import React from 'react';
 import { StyleSheet} from 'react-native';
 import {Button, Text, View} from 'native-base';
+import store from '../../Store/Store';
+import { getStateFromPath } from '@react-navigation/native';
 
 export default class MainSc extends React.Component {
     render(){

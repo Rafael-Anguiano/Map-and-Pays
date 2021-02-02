@@ -4,23 +4,22 @@
  * Este código se carga desde SecondSc 
  */
 import React, {Component} from 'react'
-import {StyleSheet} from 'react-native'
 import { Field, reduxForm } from 'redux-form'
-import {Button, Text, View, Input, Item, Label} from 'native-base';
-import { concat } from 'react-native-reanimated';
+import {Button, Text, View, Input, Item, Label} from 'native-base'
 
 const Deshabilitado = false
-const colorBorde = "green"
 
+//Aquí se encuentra el form a llenar
 const fieldNombre = (props) => {
     console.log(props)
     return(
         <View style={{justifyContent:'flex-start', alignItems:'flex-start',margin:10, width:"95%", height:"60%"}}>
-            <Item  floatingLabel underline style={{margin:15, borderBottomColor:colorBorde, width:'95%'}}>
+            <Item  floatingLabel underline style={{margin:15, borderBottomColor:"green", width:'95%'}}>
                 <Label>{props.ph}</Label>
                 <Input 
                     onChangeText={props.input.onChange} 
                     value={props.input.value}
+                    onBlur={props.input.onBlur}
                 />
             </Item>
             {props.meta.touched && props.meta.error && 
@@ -30,7 +29,8 @@ const fieldNombre = (props) => {
     )
 }
 
-const validate = (values) => {
+//Esta función valida errores que puedan surgir con los valores del forms
+const validate = (values) => { 
     const errors ={};
     if(!values.Direccion){
         errors.Direccion = 'Campo Requerido para Guardar. O eliga desde el Mapa'
@@ -40,11 +40,12 @@ const validate = (values) => {
     return errors;
 }
 
+//Se envía a llenar el form y guarda
 const DirectionForm = (props) => {
     console.log(props)
     return(
         <View>
-            <Field name="Direccion" component={fieldNombre} ph='Dirección' />
+            <Field name="Direccion" component={fieldNombre} ph='* Dirección' />
             {/*<Field name="Numero" component={fieldNombre} ph='Número' />
             <Field name="Colonia" component={fieldNombre} ph='Colonia' />*/}
             <Button 

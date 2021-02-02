@@ -66,24 +66,6 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondSc);
 
-/*
-<Item  floatingLabel underline style={{margin:15, borderBottomColor:'green', width:'95%'}}>
-                        <Label>Dirección</Label>
-                        <Input onChange={this.props.wDirection}/>
-                    </Item>
-
-                    <TextInput 
-                        placeholder='Hola'
-                        onChangeText={()=>{this.props.wDirection}}
-                    />
-
-                    <TextInput 
-                        placeholder='Dirección:'
-                        onChangeText={this.props.wDirection}
-                        style={{fontSize:18}}
-                    />
-*/
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
