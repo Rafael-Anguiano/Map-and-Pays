@@ -3,41 +3,32 @@ import MapView, { Marker} from 'react-native-maps';
 import {View, StyleSheet, Dimensions} from 'react-native'
 import * as Location from 'expo-location';
 import { Button , Text} from 'native-base';
-import { NavigationContainer } from '@react-navigation/native';
 
 export default class MapSc extends React.Component {
   
   constructor() {
     super()
-    this.state = {
-      userLat: 1, //Latitud del usuario
-      userLon: 1, //longitud del usuario
-      // marker: {
-      //  latitude: null,
-      //  longitude: null,
-      //}, 
-      mkLat: 20.6357732, //latitud del marcador
-      mkLon: -103.4295029, //longitud del marcador
+    this.state = { 
+      mkLat: null, //latitud del marcador
+      mkLon: null, //longitud del marcador
       aLat: null, //Latitud punto A
       aLon: null, //Longitud punto A
-      bLat: null, //Latitud punto B
-      bLon: null, //Longitud punto B
-      status: "Please select the Start Point"
     };
   }
   async componentDidMount() {
-    const {coords} = await Location.getCurrentPositionAsync();  //Consiguiendo ubicación del usuario
-    this.setState({ userLat: coords.latitude, userLon: coords.longitude, mkLat: coords.latitude, mkLon: coords.longitude}) //Definiendo las coordenadas
-    this.setState({mkLat: this.state.userLat, mkLon: this.state.userLon})
+    this.setState({ //Definiendo las coordenadas iniciales
+        mkLat: this.props.userLat, 
+        mkLon: this.props.userLon
+    }) 
   }
 
   Apoint(h, l){  //Esta función hace el set de el punto A en el constructor
-    this.setState({ aLat: h, aLon: l , status:"Now select the End Point"}) 
+    this.setState({ aLat: h, aLon: l }) 
   }
 
-  Bpoint(h, l){  //Esta función hace el set de el punto A en el constructor
-    this.setState({ bLat: h, bLon: l})
-
+  prueba(){
+    let result = Location.reverseGeocodeAsync({latitude: this.props.mkLat, longitude: this.props.mkLon, useGoogleMaps: true})
+    console.log(result)
   }
 
 
@@ -48,8 +39,8 @@ export default class MapSc extends React.Component {
         <MapView 
           provider="google"
           initialRegion={{
-            latitude: this.state.userLat,
-            longitude: this.state.userLon,
+            latitude: this.props.userLat,
+            longitude: this.props.userLon,
             latitudeDelta: 0.006,
             longitudeDelta: 0.006,
           }}
@@ -80,7 +71,7 @@ export default class MapSc extends React.Component {
           />
         </MapView>
         <View style={{flex:1, margin:15}}>
-          <Button success rounded onPress={()=>navigation.navigate('Main')}>
+          <Button success rounded onPress={()=>{this.prueba}}>
             <Text>Guardar ubicación</Text>
           </Button>
         </View>

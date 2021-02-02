@@ -6,10 +6,8 @@ import React from 'react';
 import { StyleSheet, TextInput, Alert} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {Button, Text, View, Input, Item, Label} from 'native-base';
-import {connect} from 'react-redux'
-import DirectionForm from '../Forms/DirectionForm'
 
-class SecondSc extends React.Component {
+export default class SecondSc extends React.Component {
     
     async grantPermisions() {
         const { navigation } = this.props  //Para navegación entre pantallas
@@ -35,15 +33,28 @@ class SecondSc extends React.Component {
     }
     
     render(){
-        console.log(this.props.numero)
         return (
             <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
                 <View style={{flexDirection:'column',justifyContent:'flex-start', alignItems:'flex-start', height:'50%',margin:50}}>
                     <Text style={{fontWeight:'bold', fontSize:20}}>Ingresar Dirección</Text>
-                    <DirectionForm/>
+                    <View style={{justifyContent:'flex-start', alignItems:'flex-start',margin:10, width:"100%", height:"60%"}}>
+                        <Item  floatingLabel underline style={{margin:15, borderBottomColor:"green"}}>
+                            <Label>* Dirección</Label>
+                            <Input 
+                                onChangeText={this.props.addDireccion}
+                                defaultValue={this.props.texto}
+                            />
+                        </Item>
+                        <Button 
+                            style={{backgroundColor:'green'}}
+                            onPress={this.props.addToDireccion}
+                        >
+                            <Text>Guardar</Text>
+                        </Button>
+                    </View>
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
-                    <Button onPress={() => this.grantPermisions()}> 
+                    <Button disabled={this.props.disable} onPress={() => this.grantPermisions()}> 
                         <Text>Elegir desde el mapa</Text>
                     </Button>
                 </View>
@@ -51,21 +62,6 @@ class SecondSc extends React.Component {
         );
     }
 }
-
-const mapStateToProps = state => ({
-    numero: state.reducerPrueba
-})
-
-const mapDispatchToProps = (dispatch) => {
-    return{
-        aumentar: () => {
-            dispatch({type: 'AUMENTAR_REDUCER_PRUEBA'})
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SecondSc);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -4,23 +4,15 @@
  * Esta pantalla envía a MainStack
  */
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Alert} from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import {Provider} from 'react-redux'
+import * as Permissions from 'expo-permissions';
+
 //Views Importadas
 import MainStack from './src/Navigation/MainStack';
-import Store from './Store/Store'
 
 export default class App extends React.Component {
-  //Aquí están todas las variables globales utilizadas para las direcciones
-  constructor(){
-    super();
-    this.state = { 
-      direcciones: [],
-      direccion:"",
-    }
-  }
 
   async componentDidMount() {
     //Estos estilos de "Font" no son necesarios, pero el no tenerlos genera un "warning" en expo.
@@ -40,9 +32,7 @@ export default class App extends React.Component {
 
   render(){
     return (
-      <Provider store={Store}>
-        <MainStack eDireccion= {this.writeDirection}/>
-      </Provider>
+      <MainStack/>
     );
   }
   
