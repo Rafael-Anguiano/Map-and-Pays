@@ -13,38 +13,27 @@ export default class MapSc extends React.Component {
     this.state = { 
       mkLat: 0, //latitud del marcador
       mkLon: 0, //longitud del marcador
-      adrs: null
     };
   }
-  async componentDidMount() {
+  async componentDidMount() {   //posición inicial del marcador
     Location.setGoogleApiKey("AIzaSyBWsGlLDk-R4fpSNKYIt4zzN5tF5nH22QU")
     this.setState({ //Definiendo las coordenadas iniciales
         mkLat: this.props.userLat, 
         mkLon: this.props.userLon
     })
-    Font.loadAsync({
+    Font.loadAsync({ 
       Roboto: require('native-base/Fonts/Roboto.ttf'),
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
    });
   }
-  /*
-  async getAddress(){
-    let addss = await Location.reverseGeocodeAsync({
-      latitude:this.state.mkLat, 
-      longitude:this.state.mkLon
-    })
-    console.log(addss[0])
-    this.setState({adrs: addss[0].street+" "+addss[0].name+", "+addss[0].district})
-    console.log(this.state.adrs)
-  }
-  */
+
   render() {
     const { navigation } = this.props
 
     return (
       <View style={styles.container} >
-        <MapView 
+        <MapView //Mapa y sus atributos
           provider={null}
           initialRegion={{
             latitude: this.props.userLat,
@@ -74,7 +63,7 @@ export default class MapSc extends React.Component {
           }}
           style={{flex: 9, width:Dimensions.get('window').width, height:Dimensions.get('window').height}} ///*6/10
         >
-          <Marker
+          <Marker //Marcador del mapa
             coordinate={{latitude: this.state.mkLat, longitude: this.state.mkLon}} //Posición del marcador
             title="Start Point" //titulo del marcador
             //description="This is your location"   //Mensaje del marcador
@@ -92,7 +81,7 @@ export default class MapSc extends React.Component {
     )
   }
 }
-//onPress={()=>{this.props.address(this.state.mkLat, this.state.mkLon)}}
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -106,29 +95,3 @@ const styles = StyleSheet.create({
       height: Dimensions.get('window').height,
     },
   });
-
-  /*
-  async getAddress( lat, lng ){
-    console.log("Entre a la función:")
-    Geocoder.fallbackToGoogle("AIzaSyBWsGlLDk-R4fpSNKYIt4zzN5tF5nH22QU");
-    console.log("Paso 1")
-    try {
-      console.log("Paso 2")
-      let res = await Geocoder.geocodePosition({lat, lng})
-      console.log("Paso 3")
-      let addr = (res[0].formatteAddress)
-      this.setState({
-        adrs: addr
-      })
-      console.log("addr:" + addr)
-    }catch (err){alert(err)}
-    
-  }
-
-  async getAddress(){
-    Location.setGoogleApiKey("AIzaSyBWsGlLDk-R4fpSNKYIt4zzN5tF5nH22QU")
-    let result = Location.reverseGeocodeAsync(this.state.mkLat, this.state.mkLon)
-    console.log(result)
-  }
-
-  */

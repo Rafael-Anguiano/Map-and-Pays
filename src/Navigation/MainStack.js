@@ -36,25 +36,31 @@ export default class MainStack extends React.Component {
         }) 
     }
 
+    //Guarda el texto del inputText de la segunda pantalla
     addDirection = (value)=>{
         this.setState({texto: value})
     }
 
-    addToDirections = () => {
+    //Agrega la información de "texto" a "direccion", limpia "texto" y deshabilita botones
+    addToDirections = () => { 
         this.setState({
             direccion: this.state.texto,
-            disable: true,
-            texto: ""
+            disable: true, //Deshabilita botones
+            texto: ""   //limpia texto de input
         })
     }
     
+    //Consiguiendo los datos de ubicación desde lat y lon. Provenientes de MapSc
     address = async (lat, lon) =>{
         let addss = await Location.reverseGeocodeAsync({
             latitude: lat, 
             longitude: lon
         })
         console.log(addss[0])
-        this.setState({direccion: addss[0].street+" "+addss[0].name+", "+addss[0].district})
+        this.setState({     //Guarda la información del lugar en "direccion"
+            direccion: addss[0].street+" "+addss[0].name+", "+addss[0].district,
+            disable: true //Deshabilita botones
+        })
     }
 
     render(){

@@ -11,6 +11,7 @@ import {Button, Text, View, Input, Item, Label} from 'native-base';
 
 export default class SecondSc extends React.Component {
     
+    //Pregunta por permisos para el mapa y hubicación
     async grantPermisions() {
         const { navigation } = this.props  //Para navegación entre pantallas
         const { status } = await Permissions.askAsync(Permissions.LOCATION); //Petición de permisos
@@ -43,6 +44,7 @@ export default class SecondSc extends React.Component {
     }
     
     render(){
+        const { navigation } = this.props  //Para navegación entre pantallas
         return (
             <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
                 <View style={{flexDirection:'column',justifyContent:'flex-start', alignItems:'flex-start', height:'50%',margin:50}}>
@@ -58,7 +60,10 @@ export default class SecondSc extends React.Component {
                         <Button
                             disabled={this.props.disable}
                             style={{backgroundColor:'green'}}
-                            onPress={this.props.addToDireccion}
+                            onPress={()=>{
+                                this.props.addToDireccion(), 
+                                navigation.navigate('Main')
+                            }}
                         >
                             <Text>Guardar</Text>
                         </Button>
