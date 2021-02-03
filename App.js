@@ -23,13 +23,6 @@ export default class App extends React.Component {
     });
   }
 
-  writeDirection = (value) => {
-    alert("Estoy imprimiendo el objeto"+ {value})
-    console.log("Aquí está el valor: " + {value})
-    //this.setState({texto: value})
-    //alert(this.state.texto)
-  }
-
   render(){
     return (
       <MainStack/>

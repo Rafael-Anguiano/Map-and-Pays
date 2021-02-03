@@ -9,8 +9,8 @@ export default class MapSc extends React.Component {
   constructor() {
     super()
     this.state = { 
-      mkLat: null, //latitud del marcador
-      mkLon: null, //longitud del marcador
+      mkLat: 0, //latitud del marcador
+      mkLon: 0, //longitud del marcador
       aLat: null, //Latitud punto A
       aLon: null, //Longitud punto A
     };
@@ -27,8 +27,8 @@ export default class MapSc extends React.Component {
   }
 
   prueba(){
-    let result = Location.reverseGeocodeAsync({latitude: this.props.mkLat, longitude: this.props.mkLon, useGoogleMaps: true})
-    console.log(result)
+    var result = Location.reverseGeocodeAsync({latitude: this.state.mkLat, longitude: this.state.mkLon})
+    console.log(result.country)
   }
 
 
@@ -71,7 +71,7 @@ export default class MapSc extends React.Component {
           />
         </MapView>
         <View style={{flex:1, margin:15}}>
-          <Button success rounded onPress={()=>{this.prueba}}>
+          <Button success rounded onPress={()=>{this.prueba()}}>
             <Text>Guardar ubicación</Text>
           </Button>
         </View>
