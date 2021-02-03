@@ -24,9 +24,7 @@ export default class MainStack extends React.Component {
             texto: "",
             //Variables para Map
             userLat: null, //
-            userLon: null,
-            mkLat: null,
-            mkLon: null,
+            userLon: null
         }
     }
 
@@ -34,9 +32,7 @@ export default class MainStack extends React.Component {
         const {coords} = await Location.getCurrentPositionAsync();  //Consiguiendo ubicación del usuario
         this.setState({ //Definiendo las coordenadas iniciales
             userLat: coords.latitude, 
-            userLon: coords.longitude, 
-            mkLat: coords.latitude, 
-            mkLon: coords.longitude
+            userLon: coords.longitude
         }) 
     }
 
@@ -51,10 +47,15 @@ export default class MainStack extends React.Component {
             texto: ""
         })
     }
-
-    markerLocation = (Lat, Lon) => {
-        this.setState({mkLat: Lat, mkLon: Lon})
-    } 
+    
+    address = async (lat, lon) =>{
+        let addss = await Location.reverseGeocodeAsync({
+            latitude: lat, 
+            longitude: lon
+        })
+        console.log(addss[0])
+        this.setState({direccion: addss[0].street+" "+addss[0].name+", "+addss[0].district})
+    }
 
     render(){
         return (
@@ -66,7 +67,7 @@ export default class MainStack extends React.Component {
                             direccion={this.state.direccion} 
                             disable={this.state.disable}/>}
                     </Stack.Screen>
-                    <Stack.Screen name="Second" options={{title: 'Second Screen', headerShown:true}}>
+                    <Stack.Screen name="Second" options={{title: 'Nueva Direccións', headerShown:true}}>
                         {props => <SecondSc 
                             {...props} 
                             texto={this.state.texto} 
@@ -79,9 +80,8 @@ export default class MainStack extends React.Component {
                             {...props} 
                             userLat={this.state.userLat} 
                             userLon={this.state.userLon}
-                            mkLat={this.state.mkLat}
-                            mkLon={this.state.mkLon} 
-                            mkLocation={this.markerLocation} />
+                            address={this.address}
+                            />
                         }
                     </Stack.Screen>
                 </Stack.Navigator>

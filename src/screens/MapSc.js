@@ -3,6 +3,8 @@ import MapView, { Marker} from 'react-native-maps';
 import {View, StyleSheet, Dimensions} from 'react-native'
 import * as Location from 'expo-location';
 import { Button , Text} from 'native-base';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class MapSc extends React.Component {
   
@@ -11,33 +13,39 @@ export default class MapSc extends React.Component {
     this.state = { 
       mkLat: 0, //latitud del marcador
       mkLon: 0, //longitud del marcador
-      aLat: null, //Latitud punto A
-      aLon: null, //Longitud punto A
+      adrs: null
     };
   }
   async componentDidMount() {
+    Location.setGoogleApiKey("AIzaSyBWsGlLDk-R4fpSNKYIt4zzN5tF5nH22QU")
     this.setState({ //Definiendo las coordenadas iniciales
         mkLat: this.props.userLat, 
         mkLon: this.props.userLon
-    }) 
+    })
+    Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+   });
   }
-
-  Apoint(h, l){  //Esta función hace el set de el punto A en el constructor
-    this.setState({ aLat: h, aLon: l }) 
+  /*
+  async getAddress(){
+    let addss = await Location.reverseGeocodeAsync({
+      latitude:this.state.mkLat, 
+      longitude:this.state.mkLon
+    })
+    console.log(addss[0])
+    this.setState({adrs: addss[0].street+" "+addss[0].name+", "+addss[0].district})
+    console.log(this.state.adrs)
   }
-
-  prueba(){
-    var result = Location.reverseGeocodeAsync({latitude: this.state.mkLat, longitude: this.state.mkLon})
-    console.log(result.country)
-  }
-
-
+  */
   render() {
     const { navigation } = this.props
+
     return (
       <View style={styles.container} >
         <MapView 
-          provider="google"
+          provider={null}
           initialRegion={{
             latitude: this.props.userLat,
             longitude: this.props.userLon,
@@ -58,7 +66,12 @@ export default class MapSc extends React.Component {
           showsBuildings={true} //Edificios
           showsTraffic={false} //Trafico
           zoomControlEnabled={true}
-          onPoiClick={(e) => this.setState({mkLat: e.nativeEvent.coordinate.latitude, mkLon: e.nativeEvent.coordinate.longitude})}
+          onPoiClick={(e) => 
+            {this.setState({
+              mkLat: e.nativeEvent.coordinate.latitude, 
+              mkLon: e.nativeEvent.coordinate.longitude
+            })
+          }}
           style={{flex: 9, width:Dimensions.get('window').width, height:Dimensions.get('window').height}} ///*6/10
         >
           <Marker
@@ -71,7 +84,7 @@ export default class MapSc extends React.Component {
           />
         </MapView>
         <View style={{flex:1, margin:15}}>
-          <Button success rounded onPress={()=>{this.prueba()}}>
+          <Button success rounded onPress={()=>{this.props.address(this.state.mkLat, this.state.mkLon), navigation.navigate('Main')}}>
             <Text>Guardar ubicación</Text>
           </Button>
         </View>
@@ -79,7 +92,7 @@ export default class MapSc extends React.Component {
     )
   }
 }
-
+//onPress={()=>{this.props.address(this.state.mkLat, this.state.mkLon)}}
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -88,7 +101,34 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start',
     },
     map: {
+      flex:9,
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height,
     },
   });
+
+  /*
+  async getAddress( lat, lng ){
+    console.log("Entre a la función:")
+    Geocoder.fallbackToGoogle("AIzaSyBWsGlLDk-R4fpSNKYIt4zzN5tF5nH22QU");
+    console.log("Paso 1")
+    try {
+      console.log("Paso 2")
+      let res = await Geocoder.geocodePosition({lat, lng})
+      console.log("Paso 3")
+      let addr = (res[0].formatteAddress)
+      this.setState({
+        adrs: addr
+      })
+      console.log("addr:" + addr)
+    }catch (err){alert(err)}
+    
+  }
+
+  async getAddress(){
+    Location.setGoogleApiKey("AIzaSyBWsGlLDk-R4fpSNKYIt4zzN5tF5nH22QU")
+    let result = Location.reverseGeocodeAsync(this.state.mkLat, this.state.mkLon)
+    console.log(result)
+  }
+
+  */

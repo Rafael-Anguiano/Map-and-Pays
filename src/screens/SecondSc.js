@@ -5,6 +5,8 @@
 import React from 'react';
 import { StyleSheet, TextInput, Alert} from 'react-native';
 import * as Permissions from 'expo-permissions';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 import {Button, Text, View, Input, Item, Label} from 'native-base';
 
 export default class SecondSc extends React.Component {
@@ -19,6 +21,14 @@ export default class SecondSc extends React.Component {
             navigation.navigate('Map')  //Envía al la pantalla de MAP una vez con el permiso de localización
             //return Location.getCurrentPositionAsync({ enableHighAccuracy: true });
         }
+    }
+
+    async componentDidMount() {
+        await Font.loadAsync({
+           Roboto: require('native-base/Fonts/Roboto.ttf'),
+           Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+           ...Ionicons.font,
+        })
     }
 
     permissionError = () => { 
@@ -45,7 +55,8 @@ export default class SecondSc extends React.Component {
                                 defaultValue={this.props.texto}
                             />
                         </Item>
-                        <Button 
+                        <Button
+                            disabled={this.props.disable}
                             style={{backgroundColor:'green'}}
                             onPress={this.props.addToDireccion}
                         >
