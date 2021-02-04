@@ -21,7 +21,10 @@ export default class MainStack extends React.Component {
             //Variables para SecundSc
             direccion: "",
             disable: false,
-            texto: "",
+            street: "",
+            number: "",
+            district: "",
+            city: "",
             //Variables para Map
             userLat: null, //
             userLon: null
@@ -35,18 +38,40 @@ export default class MainStack extends React.Component {
             userLon: coords.longitude
         }) 
     }
+    
+    shouldComponentUpdate(){
+        console.log("No actualizar")
+        //Aquí se pregunta si dirección cambió para regresar verdadero
+        return false
+    }
 
-    //Guarda el texto del inputText de la segunda pantalla
-    addDirection = (value)=>{
-        this.setState({texto: value})
+    componentDidUpdate(){
+        console.log("Estoy siendo actualizado")
+
+    }
+
+    //Guarda la calle ingresada en la segunda pantalla
+    addStreet = (value)=>{
+        this.setState({street: value})
+    }
+    //Guarda el número ingresado en la segunda pantalla
+    addNumber = (value)=>{
+        this.setState({number: value})
+    }
+    //Guarda la colonia ingresada en la segunda pantalla
+    addDistrict = (value)=>{
+        this.setState({district: value})
+    }
+    //Guarda la ciudad ingresada en la segunda pantalla
+    addCity = (value)=>{
+        this.setState({city: value})
     }
 
     //Agrega la información de "texto" a "direccion", limpia "texto" y deshabilita botones
     addToDirections = () => { 
         this.setState({
-            direccion: this.state.texto,
+            direccion: this.state.street+" "+this.state.number +", "+this.state.district+", "+this.state.city,
             disable: true, //Deshabilita botones
-            texto: ""   //limpia texto de input
         })
     }
     
@@ -58,7 +83,11 @@ export default class MainStack extends React.Component {
         })
         console.log(addss[0])
         this.setState({     //Guarda la información del lugar en "direccion"
-            direccion: addss[0].street+" "+addss[0].name+", "+addss[0].district,
+            direccion: addss[0].street+" "+addss[0].name+", "+addss[0].district+", "+addss[0].city,
+            street: addss[0].street,
+            number: addss[0].name,
+            district: addss[0].district,
+            city: addss[0].city,
             disable: true //Deshabilita botones
         })
     }
@@ -76,8 +105,14 @@ export default class MainStack extends React.Component {
                     <Stack.Screen name="Second" options={{title: 'Nueva Direccións', headerShown:true}}>
                         {props => <SecondSc 
                             {...props} 
-                            texto={this.state.texto} 
-                            addDireccion={this.addDirection} 
+                            street={this.state.street}
+                            number={this.state.number} 
+                            district={this.state.district}  
+                            city={this.state.city} 
+                            addStreet={this.addStreet} 
+                            addNumber={this.addNumber} 
+                            addDistrict={this.addDistrict} 
+                            addCity={this.addCity} 
                             addToDireccion={this.addToDirections} 
                             disable={this.state.disable} />}
                     </Stack.Screen>

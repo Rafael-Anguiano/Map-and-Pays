@@ -50,11 +50,34 @@ export default class SecondSc extends React.Component {
                 <View style={{flexDirection:'column',justifyContent:'flex-start', alignItems:'flex-start', height:'50%',margin:50}}>
                     <Text style={{fontWeight:'bold', fontSize:20}}>Ingresar Dirección</Text>
                     <View style={{justifyContent:'flex-start', alignItems:'flex-start',margin:10, width:"100%", height:"60%"}}>
-                        <Item  floatingLabel underline style={{margin:15, borderBottomColor:"green"}}>
-                            <Label>* Dirección</Label>
+                        <Item  floatingLabel underline style={{margin:5, borderBottomColor:"green"}}>
+                            <Label>* Calle: </Label>
                             <Input 
-                                onChangeText={this.props.addDireccion}
-                                defaultValue={this.props.texto}
+                                onChangeText={this.props.addStreet}
+                                defaultValue={this.props.street}
+                            />
+                        </Item>
+                        <Item  floatingLabel underline style={{margin:5, borderBottomColor:"green"}}>
+                            <Label>* Número: </Label>
+                            <Input 
+                                onChangeText={this.props.addNumber}
+                                defaultValue={this.props.number}
+                                keyboardType="numeric"
+                                maxLength={5}
+                            />
+                        </Item>
+                        <Item  floatingLabel underline style={{margin:5, borderBottomColor:"green"}}>
+                            <Label>* Colónia</Label>
+                            <Input 
+                                onChangeText={this.props.addDistrict}
+                                defaultValue={this.props.district}
+                            />
+                        </Item>
+                        <Item  floatingLabel underline style={{margin:5, marginBottom:15, borderBottomColor:"green"}}>
+                            <Label>* Ciudad: </Label>
+                            <Input 
+                                onChangeText={this.props.addCity}
+                                defaultValue={this.props.city}
                             />
                         </Item>
                         <Button
