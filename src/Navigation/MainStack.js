@@ -6,15 +6,29 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
+import * as firebase from 'firebase'
+import 'firebase/firestore';
 //Vistas
 import MainSc from '../screens/MainSc'
 import SecondSc from '../screens/SecondSc'
 import MapSc from '../screens/MapSc'
 
 const Stack = createStackNavigator();
+const firebaseConfig = {
+    apiKey: "AIzaSyBjlhxDov6xAApWujA1eBooKTum_Yuvkjs",
+    authDomain: "hk-directions.firebaseapp.com",
+    databaseURL: "https://hk-directions-default-rtdb.firebaseio.com",
+    projectId: "hk-directions",
+    storageBucket: "hk-directions.appspot.com",
+    messagingSenderId: "115579744590",
+    appId: "1:115579744590:web:809f51b091efffae80ae1f"
+}
+firebase.initializeApp(firebaseConfig);
+
+const dbh = firebase.firestore();
+const consulta = dbh.collection('direccion').doc('LsMRnWB2pIUhxgMbeD54');
 
 export default class MainStack extends React.Component {
-
     constructor(){
         super()
         this.state = {
@@ -32,18 +46,31 @@ export default class MainStack extends React.Component {
     }
 
     async componentDidMount() {
+        const doc = await consulta.get();
+        if (!doc.exists) {
+            console.log('No such document!');
+        } else {
+            console.log('Document data:', doc.data().place);
+        }
+        this.setState({direccion: doc.data().place })
         const {coords} = await Location.getCurrentPositionAsync();  //Consiguiendo ubicación del usuario
         this.setState({ //Definiendo las coordenadas iniciales
             userLat: coords.latitude, 
             userLon: coords.longitude
-        }) 
+        })
     }
 
-    componentDidUpdate(prevProps, prevState){
+    async componentDidUpdate(prevState){
         if(prevState.direccion !== this.state.direccion){
             console.log("Enviar a DB")
+            if(this.state.direccion !== ""){
+                await  dbh.collection("direccion").doc("LsMRnWB2pIUhxgMbeD54").set({
+                    place: this.state.direccion,
+                })
+            }
+            
         }
-        console.log("Estoy siendo actualizado")
+        console.log("Actualicé la db")
     }
 
     //Guarda la calle ingresada en la segunda pantalla

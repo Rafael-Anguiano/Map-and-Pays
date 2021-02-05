@@ -63,7 +63,7 @@ export default class SecondSc extends React.Component {
                                 onChangeText={this.props.addNumber}
                                 defaultValue={this.props.number}
                                 keyboardType="numeric"
-                                maxLength={5}
+                                maxLength={6}
                             />
                         </Item>
                         <Item  floatingLabel underline style={{margin:5, borderBottomColor:"green"}}>

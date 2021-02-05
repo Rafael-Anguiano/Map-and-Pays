@@ -4,10 +4,9 @@
  * Esta pantalla envía a MainStack
  */
 import React from 'react';
-import { StyleSheet, Alert} from 'react-native';
+import { StyleSheet} from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import * as Permissions from 'expo-permissions';
 
 //Views Importadas
 import MainStack from './src/Navigation/MainStack';
