@@ -64,7 +64,7 @@ export default class MainStack extends React.Component {
         if(prevState.direccion !== this.state.direccion){
             console.log("Enviar a DB")
             if(this.state.direccion !== ""){
-                await  dbh.collection("direccion").doc("LsMRnWB2pIUhxgMbeD54").set({
+                await  consulta.set({
                     place: this.state.direccion,
                 })
             }
