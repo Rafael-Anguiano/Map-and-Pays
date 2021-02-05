@@ -19,12 +19,12 @@ export default class MainStack extends React.Component {
         super()
         this.state = {
             //Variables para SecundSc
-            direccion: "",
-            disable: false,
-            street: "",
-            number: "",
-            district: "",
-            city: "",
+            direccion: "",  //Variable Final
+            street: "",     //Calle de direccion
+            number: "",     //Número de dirección
+            district: "",   //Colónia de dirección
+            city: "",       //Ciudad de dirección
+            disable: false, //Estado de los botones
             //Variables para Map
             userLat: null, //
             userLon: null
@@ -38,16 +38,12 @@ export default class MainStack extends React.Component {
             userLon: coords.longitude
         }) 
     }
-    
-    shouldComponentUpdate(){
-        console.log("No actualizar")
-        //Aquí se pregunta si dirección cambió para regresar verdadero
-        return false
-    }
 
-    componentDidUpdate(){
+    componentDidUpdate(prevProps, prevState){
+        if(prevState.direccion !== this.state.direccion){
+            console.log("Enviar a DB")
+        }
         console.log("Estoy siendo actualizado")
-
     }
 
     //Guarda la calle ingresada en la segunda pantalla
@@ -71,7 +67,7 @@ export default class MainStack extends React.Component {
     addToDirections = () => { 
         this.setState({
             direccion: this.state.street+" "+this.state.number +", "+this.state.district+", "+this.state.city,
-            disable: true, //Deshabilita botones
+            //disable: true, //Deshabilita botones
         })
     }
     
@@ -88,7 +84,7 @@ export default class MainStack extends React.Component {
             number: addss[0].name,
             district: addss[0].district,
             city: addss[0].city,
-            disable: true //Deshabilita botones
+            //disable: true //Deshabilita botones
         })
     }
 
