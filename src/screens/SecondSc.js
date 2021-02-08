@@ -84,7 +84,7 @@ export default class SecondSc extends React.Component {
                             disabled={this.props.disable}
                             style={{backgroundColor:'green'}}
                             onPress={()=>{
-                                this.props.addToDireccion(), 
+                                this.props.addToDirections(), 
                                 navigation.navigate('Main')
                             }}
                         >

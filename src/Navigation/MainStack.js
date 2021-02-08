@@ -34,7 +34,7 @@ export default class MainStack extends React.Component {
                             addNumber={this.props.addNumber} 
                             addDistrict={this.props.addDistrict} 
                             addCity={this.props.addCity} 
-                            addToDireccion={this.props.addToDirections} 
+                            addToDirections={this.props.addToDirections} 
                             disable={this.props.disable} />}
                     </Stack.Screen>
                     <Stack.Screen name="Map" options={{title: 'Map Screen', headerShown:true}}>

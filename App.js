@@ -26,7 +26,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const dbh = firebase.firestore();
-const consulta = dbh.collection('direccion').doc('LsMRnWB2pIUhxgMbeD54');
+const consulta = dbh.collection('direccion').doc('iP2Kd5R7KkWt5SQzzdwo');
 
 export default class App extends React.Component {
   
@@ -55,6 +55,7 @@ export default class App extends React.Component {
     const doc = await consulta.get();
     if (!doc.exists) { //Busca existencia de información en base de datos
         console.log('No such document!');
+        alert("No hay conexión a internet")
     } else {
         console.log('Document data:', doc.data().place);
     }
@@ -95,19 +96,31 @@ export default class App extends React.Component {
 
   //Guarda la calle ingresada en la segunda pantalla
   addStreet = (value)=>{
-    this.setState({street: value})
+    if(!value.exists){
+      value = ""
+    }
+  this.setState({street: value})
   }
   //Guarda el número ingresado en la segunda pantalla
   addNumber = (value)=>{
-      this.setState({number: value})
+    if(!value.exists){
+      value = ""
+    }
+    this.setState({number: value})
   }
   //Guarda la colonia ingresada en la segunda pantalla
   addDistrict = (value)=>{
-      this.setState({district: value})
+    if(!value.exists){
+      value = ""
+    }
+    this.setState({district: value})
   }
   //Guarda la ciudad ingresada en la segunda pantalla
   addCity = (value)=>{
-      this.setState({city: value})
+    if(!value.exists){
+      value = ""
+    }
+    this.setState({city: value})
   }
 
   //Agrega la información de "texto" a "direccion", limpia "texto" y deshabilita botones
@@ -154,7 +167,7 @@ export default class App extends React.Component {
     if (!this.state.appIsReady) {
       return (
         <View style={{flex:1, backgroundColor:"gray", alignItems:'center', justifyContent:'center'}}>
-          <Text>Soy la pantalla de carga 👋</Text>
+          <Text>Cargando</Text>
         </View>
       );
     }
@@ -173,7 +186,7 @@ export default class App extends React.Component {
         addNumber={this.addNumber} 
         addDistrict={this.addDistrict} 
         addCity={this.addCity} 
-        addToDireccion={this.addToDirections}
+        addToDirections={this.addToDirections}
         //Para Map
         userLat={this.state.userLat} 
         userLon={this.state.userLon}
