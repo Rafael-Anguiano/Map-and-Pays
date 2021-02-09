@@ -3,17 +3,20 @@
  * Para poder realizar cambios en las variables desde toda pantalla siguiente
  * Esta pantalla envía a MainStack
  */
-import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import { Text, View} from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Location from 'expo-location';
 import * as firebase from 'firebase'
 import 'firebase/firestore';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 //Views Importadas
 import MainStack from './src/Navigation/MainStack';
 
+//Configuración para firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBjlhxDov6xAApWujA1eBooKTum_Yuvkjs",
   authDomain: "hk-directions.firebaseapp.com",
@@ -23,13 +26,12 @@ const firebaseConfig = {
   messagingSenderId: "115579744590",
   appId: "1:115579744590:web:809f51b091efffae80ae1f"
 }
-firebase.initializeApp(firebaseConfig);
-
+firebase.initializeApp(firebaseConfig); //Inicialización de firebase
+//Variables para base de datos en firebase
 const dbh = firebase.firestore();
 const consulta = dbh.collection('direccion').doc('iP2Kd5R7KkWt5SQzzdwo');
 
 export default class App extends React.Component {
-  
   constructor(){
     super()
     this.state = {
@@ -93,7 +95,7 @@ export default class App extends React.Component {
     }
     console.log("Actualicé la db")
   }
-
+    
   //Guarda la calle ingresada en la segunda pantalla
   addStreet = (value)=>{
     if(!value.exists){
@@ -212,4 +214,3 @@ export default class App extends React.Component {
 
 async function performAPICalls() {}
 async function downloadAssets() {}
-
