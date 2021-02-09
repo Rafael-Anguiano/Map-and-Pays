@@ -138,6 +138,19 @@ export default class App extends React.Component {
         longitude: lon
     })
     console.log(addss[0])
+    //Verificando que existan los datos y si no guardar vacío
+    if (addss[0].street == null) {
+      addss[0].street = ""      
+    }
+    if (addss[0].name == null) {
+      addss[0].name = ""      
+    }
+    if (addss[0].district == null) {
+      addss[0].district = ""      
+    }
+    if (addss[0].city == null) {
+      addss[0].city = ""      
+    }
     this.setState({     //Guarda la información del lugar en "direccion"
         direccion: addss[0].street+" "+addss[0].name+", "+addss[0].district+", "+addss[0].city,
         street: addss[0].street,

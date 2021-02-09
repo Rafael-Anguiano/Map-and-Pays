@@ -29,7 +29,8 @@
     "react-native-screens": "^2.15.2",
     "react-native-web": "~0.13.12",
     "firebase": "7.9.0",
-    "expo-splash-screen": "~0.8.1"
+    "expo-splash-screen": "~0.8.1",
+    "expo-notifications": "~0.8.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
