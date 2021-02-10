@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "115579744590",
+    "firebase_url": "https://hk-directions-default-rtdb.firebaseio.com",
+    "project_id": "hk-directions",
+    "storage_bucket": "hk-directions.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115579744590:android:2d6d4679393dbec880ae1f",
+        "android_client_info": {
+          "package_name": "com.hk.directions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115579744590-f3c6regcm6aua162jjonb9dv2epum1r6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtXskUrVAbdw8pa8jenidtEwqyjnF1rD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115579744590-f3c6regcm6aua162jjonb9dv2epum1r6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

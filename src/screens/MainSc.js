@@ -8,6 +8,8 @@ import {FlatList, StyleSheet} from 'react-native'
 import {Button, Text, View} from 'native-base'
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 
 export default class MainSc extends React.Component {
     
@@ -17,6 +19,7 @@ export default class MainSc extends React.Component {
            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
            ...Ionicons.font,
         })
+        
     }
 
     render(){

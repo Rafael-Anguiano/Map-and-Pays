@@ -4,13 +4,16 @@
  * Esta pantalla envía a MainStack
  */
 import React, {useState, useEffect, useRef} from 'react';
-import { Text, View} from 'react-native';
+import { Text, TouchableWithoutFeedbackBase, View} from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Location from 'expo-location';
 import * as firebase from 'firebase'
 import 'firebase/firestore';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import Constants from 'expo-constants';
 //Views Importadas
 import MainStack from './src/Navigation/MainStack';
 
@@ -29,6 +32,14 @@ firebase.initializeApp(firebaseConfig); //Inicialización de firebase
 const dbh = firebase.firestore();
 const consulta = dbh.collection('direccion').doc('iP2Kd5R7KkWt5SQzzdwo');
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 export default class App extends React.Component {
   constructor(){
     super()
@@ -45,13 +56,16 @@ export default class App extends React.Component {
         userLon: null,
         //Variables para carga
         appIsReady: false,
-        timer: false
+        timer: false,
+        //Notificaciones
+        expoPushToken: null,
+        timeinterval: 2000
     }
   }
 
   //Primero en cargar
   async componentDidMount() {
-    //Componentes de carga de las pestañas
+      //Consulta en base de datos
     const doc = await consulta.get();
     if (!doc.exists) { //Busca existencia de información en base de datos
         console.log('No such document!');
@@ -59,20 +73,28 @@ export default class App extends React.Component {
     } else {
         console.log('Document data:', doc.data().place);
     }
+    console.log("Voy a cambiar dirección")
     this.setState({direccion: doc.data().place })
+    console.log("Acabó consulta de datos")
+      //Ubicación
     const {coords} = await Location.getCurrentPositionAsync();  //Consiguiendo ubicación del usuario
     this.setState({ //Definiendo las coordenadas iniciales
         userLat: coords.latitude, 
         userLon: coords.longitude
     })
-    //Componentes de carga de la pantalla de carga
+    console.log("Acabó Ubicacion")
+      //Notificaciones
+    await this.prepareNotification();
+    console.log("Acabó Notificaciones")
+      //Componentes de carga de la pantalla de carga
     try {
       await SplashScreen.preventAutoHideAsync();
     } catch (e) {
       console.warn(e);
     }
-    this.prepareResources();
-    //Fonts para botones
+    await this.prepareResources();
+    console.log("Acabó Splash Screen")
+      //Fonts para botones
     await Font.loadAsync({
        Roboto: require('native-base/Fonts/Roboto.ttf'),
        Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
@@ -82,18 +104,18 @@ export default class App extends React.Component {
 
   //En caso de actualización de estado
   async componentDidUpdate(prevState){
-    if(prevState.direccion !== this.state.direccion){
-        console.log("Enviar a DB")
-        if(this.state.direccion !== ""){
-            await  consulta.set({
-                place: this.state.direccion,
-            })
-        }
-        
-    }
-    console.log("Actualicé la db")
+      if(prevState.direccion !== this.state.direccion){
+          if(this.state.direccion !== ""){
+              await  consulta.set({
+                place: this.state.direccion
+              })
+              this.sendPushNotification()
+          }
+          console.log("DidUpdate")
+      }
+      console.log("DidUpdate")
   }
-    
+  
   //Guarda la calle ingresada en la segunda pantalla
   addStreet = (value)=>{
     if(!value.exists){
@@ -130,7 +152,6 @@ export default class App extends React.Component {
         //disable: true, //Deshabilita botones
     })
   }
-
   //Consiguiendo los datos de ubicación desde lat y lon. Provenientes de MapSc
   address = async (lat, lon) =>{
     let addss = await Location.reverseGeocodeAsync({
@@ -175,6 +196,41 @@ export default class App extends React.Component {
     }
   };
 
+  //Preparando para notificationes
+  async prepareNotification() {
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      const token = await Notifications.getExpoPushTokenAsync();
+      this.setState({expoPushToken: token.data})
+    } else {
+      alert('Estas usando un emulador, por favor usa un dispositivo físico');
+    }
+    console.log("Token en state: ", this.state.expoPushToken)
+  };
+
+  //Enviando Notificaciones
+  async sendPushNotification() {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Guardado exitoso",
+        body: 'Se guardó exitosamente la ubicación: '+this.state.direccion,
+      },
+      trigger: {
+        seconds: 2,
+      },
+    });
+    console.log("Envío notificación")
+  }
+
   //RENDER
   render(){
     if (!this.state.appIsReady) {
@@ -212,3 +268,21 @@ export default class App extends React.Component {
 
 async function performAPICalls() {}
 async function downloadAssets() {}
+
+/*const message = {
+      to: expoPushToken,
+      sound: 'default',
+      title: 'Guardado exitoso',
+      body: 'Se guardó con exito la ubicación:'+ direccion ,
+      //data: { someData: 'goes here' },
+    };
+  
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });*/
