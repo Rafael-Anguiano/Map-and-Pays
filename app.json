@@ -23,10 +23,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "googleServicesFile": "./google-services.json",
-      "useNextNotificationsApi": true,
-      "package": "com.rezuks.Directions"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

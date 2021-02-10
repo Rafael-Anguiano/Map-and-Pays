@@ -11,8 +11,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Location from 'expo-location';
 import * as firebase from 'firebase'
 import 'firebase/firestore';
-import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
 //Views Importadas
 import MainStack from './src/Navigation/MainStack';
 
