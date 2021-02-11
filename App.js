@@ -4,7 +4,7 @@
  * Esta pantalla envía a MainStack
  */
 import React, {useState, useEffect, useRef} from 'react';
-import { Text, TouchableWithoutFeedbackBase, View} from 'react-native';
+import { Alert, Text, TouchableWithoutFeedbackBase, View} from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
@@ -44,8 +44,9 @@ export default class App extends React.Component {
   constructor(){
     super()
     this.state = {
+        //Variable Final
+        direccion: "", 
         //Variables para SecundSc y map
-        direccion: "",  //Variable Final
         street: "",     //Calle de direccion
         number: "",     //Número de dirección
         district: "",   //Colónia de dirección
@@ -73,8 +74,7 @@ export default class App extends React.Component {
     } else {
         console.log('Document data:', doc.data().place);
     }
-    console.log("Voy a cambiar dirección")
-    this.setState({direccion: doc.data().place })
+    this.setState({direccion: doc.data().place})
     console.log("Acabó consulta de datos")
       //Ubicación
     const {coords} = await Location.getCurrentPositionAsync();  //Consiguiendo ubicación del usuario
@@ -82,7 +82,7 @@ export default class App extends React.Component {
         userLat: coords.latitude, 
         userLon: coords.longitude
     })
-    console.log("Acabó Ubicacion")
+    console.log("Acabó Ubicacion del Usuario")
       //Notificaciones
     await this.prepareNotification();
     console.log("Acabó Notificaciones")
@@ -104,18 +104,25 @@ export default class App extends React.Component {
 
   //En caso de actualización de estado
   async componentDidUpdate(prevState){
+      // Pregunto si la dirección cambio
       if(prevState.direccion !== this.state.direccion){
+          // Verifico que la dirección no sea vacía
           if(this.state.direccion !== ""){
-              await  consulta.set({
-                place: this.state.direccion
-              })
-              this.sendPushNotification()
+              // Consulto en la base de datos que sea diferente
+              const doc = await consulta.get();
+              if(this.state.direccion !== doc.data().place){
+                //Realizar cambio
+                await  consulta.set({ //Guardo en base de datos la dirección
+                  place: this.state.direccion
+                })
+                console.log("Voy a enviar notificación")
+                this.sendPushNotification() //Envío a función para mandar notificación
+              }
           }
-          console.log("DidUpdate")
       }
-      console.log("DidUpdate")
+    console.log("DidUpdate")
   }
-  
+
   //Guarda la calle ingresada en la segunda pantalla
   addStreet = (value)=>{
     if(!value.exists){
@@ -206,7 +213,7 @@ export default class App extends React.Component {
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
+        alert('Se necesitan permisos para recibir notificaciones');
         return;
       }
       const token = await Notifications.getExpoPushTokenAsync();
@@ -219,6 +226,7 @@ export default class App extends React.Component {
 
   //Enviando Notificaciones
   async sendPushNotification() {
+    //Envío una primera notificación de la enviada a base de datos
     Notifications.scheduleNotificationAsync({
       content: {
         title: "Guardado exitoso",
@@ -226,6 +234,16 @@ export default class App extends React.Component {
       },
       trigger: {
         seconds: 2,
+      },
+    });
+    //Segunda notificación del envío a base de datos
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Recordatorio",
+        body: 'Se guardó exitosamente la ubicación: '+this.state.direccion,
+      },
+      trigger: {
+        seconds: 30,
       },
     });
     console.log("Envío notificación")
