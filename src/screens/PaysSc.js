@@ -13,21 +13,10 @@ export default class PaysSc extends React.Component {
         }
       }
     
-    async componentDidMount() {
-        var conektaApi = new Conekta();
-        conektaApi.setPublicKey( 'key_eYvWV7gUaMyaN4iD' );
+    componentDidMount() {
+        var conekta = require('conekta');
 
-        conektaApi.createToken({
-        cardNumber: '4242424242424242',
-        name: 'Manolo Virolo',
-        cvc: '111',
-        expMonth: '11',
-        expYear: '21',
-        }, function(data){
-        console.log( 'DATA:', data ); // data.id to get the Token ID
-        }, function(){
-        console.log( 'Error!' );
-        });
+        conekta.api_key = "key_eYvWV7gSDkNYXsmr";
     }
         
     render(){
@@ -50,3 +39,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+/* 
+//Usando react-native conekta
+var conektaApi = new Conekta();
+        conektaApi.setPublicKey( 'key_eYvWV7gUaMyaN4iD' );
+
+        conektaApi.createToken({
+        cardNumber: '4242424242424242',
+        name: 'Manolo Virolo',
+        cvc: '111',
+        expMonth: '11',
+        expYear: '21',
+        }, function(data){
+        console.log( 'DATA:', data ); // data.id to get the Token ID
+        }, function(){
+        console.log( 'Error!' );
+        });
+*/
