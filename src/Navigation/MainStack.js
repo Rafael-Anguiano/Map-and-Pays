@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native';
 import MainSc from '../screens/MainSc'
 import SecondSc from '../screens/SecondSc'
 import MapSc from '../screens/MapSc'
+import DecitionSc from '../screens/DecitionSc'
 
 const Stack = createStackNavigator();
 
@@ -17,13 +18,19 @@ export default class MainStack extends React.Component {
         return (
             <NavigationContainer>
                 <Stack.Navigator>
-                    <Stack.Screen name="Main" options={{title: 'Main Screen', headerShown:false}}>
+                    <Stack.Screen name="Home" options={{title: 'Decition', headerShown:false}}>
+                        {props => <DecitionSc 
+                            {...props} 
+                            
+                            />}
+                    </Stack.Screen>
+                    <Stack.Screen name="Main" options={{title: 'Direcciones', headerShown:true}}>
                         {props => <MainSc 
                             {...props} 
                             direccion={this.props.direccion} 
                             disable={this.props.disable}/>}
                     </Stack.Screen>
-                    <Stack.Screen name="Second" options={{title: 'Nueva Direccións', headerShown:true}}>
+                    <Stack.Screen name="Second" options={{title: 'Nueva Dirección', headerShown:true}}>
                         {props => <SecondSc 
                             {...props} 
                             street={this.props.street}
@@ -37,7 +44,7 @@ export default class MainStack extends React.Component {
                             addToDirections={this.props.addToDirections} 
                             disable={this.props.disable} />}
                     </Stack.Screen>
-                    <Stack.Screen name="Map" options={{title: 'Map Screen', headerShown:true}}>
+                    <Stack.Screen name="Map" options={{title: 'Mapa', headerShown:true}}>
                         {props => <MapSc 
                             {...props} 
                             userLat={this.props.userLat} 
@@ -45,6 +52,12 @@ export default class MainStack extends React.Component {
                             address={this.props.address}
                             />
                         }
+                    </Stack.Screen>
+                    <Stack.Screen name="Pays" options={{title: 'Sección de Pagos', headerShown:false}}>
+                        {props => <PaysSc 
+                            {...props} 
+                            
+                            />}
                     </Stack.Screen>
                 </Stack.Navigator>
             </NavigationContainer>
