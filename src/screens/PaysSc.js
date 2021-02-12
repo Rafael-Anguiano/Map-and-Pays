@@ -4,35 +4,38 @@
 import React from 'react'
 import {StyleSheet} from 'react-native'
 import {Button, Text, View} from 'native-base'
-import * as Font from 'expo-font'
-import { Ionicons } from '@expo/vector-icons';
 
-export default class DecitionSc extends React.Component {
+export default class PaysSc extends React.Component {
+    constructor(){
+        super()
+        this.state = {
+            
+        }
+      }
     
     async componentDidMount() {
-        await Font.loadAsync({
-           Roboto: require('native-base/Fonts/Roboto.ttf'),
-           Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-           ...Ionicons.font,
-        })
-    }
+        var conektaApi = new Conekta();
+        conektaApi.setPublicKey( 'key_eYvWV7gUaMyaN4iD' );
 
+        conektaApi.createToken({
+        cardNumber: '4242424242424242',
+        name: 'Manolo Virolo',
+        cvc: '111',
+        expMonth: '11',
+        expYear: '21',
+        }, function(data){
+        console.log( 'DATA:', data ); // data.id to get the Token ID
+        }, function(){
+        console.log( 'Error!' );
+        });
+    }
+        
     render(){
         const { navigation } = this.props  //Para navegación entre pantallas
         return (
             <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
                 <View style={{justifyContent:'center', alignItems:'flex-start', marginHorizontal:50}}>
-                    <Text style={{fontWeight:'bold', fontSize:20}}>¿Qué gusta hacer?</Text> 
-                </View>
-                <View style={{flexDirection:'row', justifyContent:'center'}}> 
-                    <Button> 
-                        <Text>Sección Direcciones</Text>
-                    </Button>
-                </View>
-                <View style={{flexDirection:'row', justifyContent:'center'}}>
-                    <Button> 
-                        <Text>Sección Pagos</Text>
-                    </Button>
+                    <Text style={{fontWeight:'bold', fontSize:20}}>Entramos a pagos</Text> 
                 </View>
             </View>
         );

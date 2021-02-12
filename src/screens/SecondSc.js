@@ -5,8 +5,6 @@
 import React from 'react';
 import { StyleSheet, TextInput, Alert} from 'react-native';
 import * as Permissions from 'expo-permissions';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
 import {Button, Text, View, Input, Item, Label} from 'native-base';
 
 export default class SecondSc extends React.Component {
@@ -24,13 +22,7 @@ export default class SecondSc extends React.Component {
         }
     }
 
-    async componentDidMount() {
-        await Font.loadAsync({
-           Roboto: require('native-base/Fonts/Roboto.ttf'),
-           Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-           ...Ionicons.font,
-        })
-    }
+    async componentDidMount() {}
 
     permissionError = () => { 
         Alert.alert(

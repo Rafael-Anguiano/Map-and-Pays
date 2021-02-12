@@ -3,10 +3,8 @@
  * Para poder realizar cambios en las variables desde toda pantalla siguiente
  * Esta pantalla envía a MainStack
  */
-import React, {useState, useEffect, useRef} from 'react';
-import { Alert, Text, TouchableWithoutFeedbackBase, View} from 'react-native';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { Text, View} from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Location from 'expo-location';
 import * as firebase from 'firebase'
@@ -94,12 +92,6 @@ export default class App extends React.Component {
     }
     await this.prepareResources();
     console.log("Acabó Splash Screen")
-      //Fonts para botones
-    await Font.loadAsync({
-       Roboto: require('native-base/Fonts/Roboto.ttf'),
-       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-       ...Ionicons.font,
-    })
   }
 
   //En caso de actualización de estado

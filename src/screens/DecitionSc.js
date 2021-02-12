@@ -32,7 +32,7 @@ export default class DecitionSc extends React.Component {
                     </Button>
                 </View>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
-                    <Button> 
+                    <Button onPress={() => navigation.navigate('Pays')}> 
                         <Text>Sección Pagos</Text>
                     </Button>
                 </View>

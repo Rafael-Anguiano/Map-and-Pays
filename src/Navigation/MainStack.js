@@ -10,6 +10,7 @@ import MainSc from '../screens/MainSc'
 import SecondSc from '../screens/SecondSc'
 import MapSc from '../screens/MapSc'
 import DecitionSc from '../screens/DecitionSc'
+import PaysSc from '../screens/PaysSc'
 
 const Stack = createStackNavigator();
 
@@ -53,7 +54,7 @@ export default class MainStack extends React.Component {
                             />
                         }
                     </Stack.Screen>
-                    <Stack.Screen name="Pays" options={{title: 'Sección de Pagos', headerShown:false}}>
+                    <Stack.Screen name="Pays" options={{title: 'Sección de Pagos', headerShown:true}}>
                         {props => <PaysSc 
                             {...props} 
                             
