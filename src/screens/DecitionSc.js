@@ -1,6 +1,4 @@
 /**
- * Esta es la Primera pantalla, donde se mostrarán las direcciones agregadas por el usuario,
- * Se reciben las direcciones del MainStack y este a su vez del App.js.
  * Esta pantalla es la primera en mostrarse y redirige tanto a MainSc.js como a PaysSc.js
  */
 import React from 'react'
