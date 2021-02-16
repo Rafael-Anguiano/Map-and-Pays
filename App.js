@@ -58,7 +58,9 @@ export default class App extends React.Component {
         timer: false,
         //Notificaciones
         expoPushToken: null,
-        timeinterval: 2000
+        timeinterval: 2000,
+        //Pagos
+        amount: null
     }
   }
 
@@ -84,6 +86,8 @@ export default class App extends React.Component {
       //Notificaciones
     await this.prepareNotification();
     console.log("Acabó Notificaciones")
+      //Pagos
+    this.gettingAmount()
       //Componentes de carga de la pantalla de carga
     try {
       await SplashScreen.preventAutoHideAsync();
@@ -195,6 +199,11 @@ export default class App extends React.Component {
     }
   };
 
+  gettingAmount(){
+    let random = Math.floor(Math.random()*1000)+1
+    this.setState({amount: random})
+  }
+
   //Preparando para notificationes
   async prepareNotification() {
     if (Constants.isDevice) {
@@ -270,6 +279,7 @@ export default class App extends React.Component {
         userLat={this.state.userLat} 
         userLon={this.state.userLon}
         address={this.address}
+        amount={this.state.amount}
       />
     );
   }

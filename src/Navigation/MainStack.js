@@ -22,7 +22,7 @@ export default class MainStack extends React.Component {
                     <Stack.Screen name="Home" options={{title: 'Decition', headerShown:false}}>
                         {props => <DecitionSc 
                             {...props} 
-                            
+                            amount={this.props.amount}
                             />}
                     </Stack.Screen>
                     <Stack.Screen name="Main" options={{title: 'Direcciones', headerShown:true}}>
@@ -57,7 +57,7 @@ export default class MainStack extends React.Component {
                     <Stack.Screen name="Pays" options={{title: 'Sección de Pagos', headerShown:true}}>
                         {props => <PaysSc 
                             {...props} 
-                            
+                            amount={this.props.amount}
                             />}
                     </Stack.Screen>
                 </Stack.Navigator>

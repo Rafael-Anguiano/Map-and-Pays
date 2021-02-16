@@ -1,13 +1,96 @@
 /**
  * Esta es la Primera pantalla de la sección de pagos.
  */
-import React from 'react'
-import {StyleSheet} from 'react-native'
-import {Button, Text, View} from 'native-base'
+import React, {PureComponent} from 'react'
+import {StyleSheet, Text, View} from 'react-native'
+import Button from '../../components/Button'
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
-import stripe from 'tipsi-stripe'
+//import stripe from 'tipsi-stripe';
 
-const params = {
+Stripe.setOptionsAsync({
+    publishableKey: 'pk_test_51ILAJZFlD97kQstqrEtiXdgH9fcUXllFnuUFe8MB8usKfYzKS7kmzxGZlDLnIuEjD41zwWW5uvEJGdyCyXmX80hR009tcuy6to', // Your key
+    androidPayMode: 'test', // Android only
+  });
+
+const options = {
+  requiredBillingAddressFields: 'full',
+  prefilledInformation: {
+    billingAddress: {
+      name: 'Gunilla Haugeh',
+      line1: 'Canary Place',
+      line2: '3',
+      city: 'Macon',
+      state: 'Georgia',
+      country: 'US',
+      postalCode: '31217',
+    },
+  },
+};
+
+export default class PaysSc extends PureComponent {
+    state = {
+      loading: false,
+      paymentMethod: null,
+    }
+  
+    handleCardPayPress = async () => {
+      try {
+        this.setState({ loading: true, paymentMethod: null })
+  
+        const paymentMethod = await Stripe.paymentRequestWithCardFormAsync(options)
+  
+        this.setState({ loading: false, paymentMethod })
+      } catch (error) {
+        this.setState({ loading: false })
+      }
+    }
+  
+    render() {
+      const { loading, paymentMethod } = this.state
+  
+      return (
+        <View style={styles.container}>
+          <Text style={styles.header}>Card Form Example</Text>
+          <Text style={styles.instruction}>Click button to show Card Form dialog.</Text>
+          <Button
+            text="Enter you card and pay"
+            loading={loading}
+            onPress={this.handleCardPayPress}
+          />
+          <View style={styles.paymentMethod} >
+            {paymentMethod && (
+              <Text style={styles.instruction}>Payment Method: {JSON.stringify(paymentMethod)}</Text>
+            )}
+          </View>
+        </View>
+      )
+    }
+  }
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    header: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10,
+    },
+    instruction: {
+      textAlign: 'center',
+      color: '#333333',
+      marginBottom: 5,
+    },
+    paymentMethod: {
+      height: 20,
+    },
+  })
+  
+
+
+/*const params = {
             // mandatory
             number: '4242424242424242',
             expMonth: 11,
@@ -23,6 +106,7 @@ const params = {
             addressCountry: 'Test Country',
             addressZip: '55555',
           };
+
 
 export default class PaysSc extends React.Component {
     constructor(){
@@ -45,6 +129,7 @@ export default class PaysSc extends React.Component {
     }
 
     async conseguirToken(){
+
         const options = {
             requiredBillingAddressFields: 'full',
             prefilledInformation: {
@@ -71,11 +156,11 @@ export default class PaysSc extends React.Component {
             <View style={{flex:1, backgroundColor:'#fff', justifyContent:'space-around'}}>
                 <View style={{justifyContent:'center', alignItems:'flex-start', marginHorizontal:50}}>
                     <Text style={{fontWeight:'bold', fontSize:20}}>Entramos a pagos</Text> 
-                    
                 </View>
                     <Button style={{alignSelf:'center'}} onPress={() => {this.conseguirToken()}}>
                         <Text>Añadir Tarjeta</Text>
                     </Button>
+                    <Text style={{fontWeight:'bold', fontSize:20}}>{this.props.amount}</Text> 
             </View>
         );
     }
@@ -89,6 +174,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+*/
+
+
 
 /* 
 //Usando react-native conekta
@@ -107,3 +195,4 @@ var conektaApi = new Conekta();
         console.log( 'Error!' );
         });
 */
+

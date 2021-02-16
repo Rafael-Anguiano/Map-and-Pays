@@ -29,6 +29,9 @@ export default class DecitionSc extends React.Component {
                         <Text>Sección Direcciones</Text>
                     </Button>
                 </View>
+                <View style={{justifyContent:'center', alignItems:'flex-start', marginHorizontal:50}}>
+                    <Text style={{fontWeight:'bold', fontSize:20}}>{this.props.amount}</Text> 
+                </View>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
                     <Button onPress={() => navigation.navigate('Pays')}> 
                         <Text>Sección Pagos</Text>
