@@ -250,6 +250,19 @@ export default class App extends React.Component {
     console.log("Envío notificación")
   }
 
+  async payNotification(){
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Proceso de Pedido",
+        body: 'Su pedido se está procesando:'
+      },
+      trigger: {
+        seconds: 30,
+      },
+    });
+    console.log("Envío notificación Pago")
+  }
+
   //RENDER
   render(){
     if (!this.state.appIsReady) {
@@ -280,6 +293,7 @@ export default class App extends React.Component {
         userLon={this.state.userLon}
         address={this.address}
         amount={this.state.amount}
+        payNotification={this.payNotification}
       />
     );
   }

@@ -5,6 +5,7 @@ import React, {PureComponent} from 'react'
 import {StyleSheet, Text, View} from 'react-native'
 import Button from '../../components/Button'
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+import axios from 'axios'
 //import stripe from 'tipsi-stripe';
 
 Stripe.setOptionsAsync({
@@ -13,36 +14,62 @@ Stripe.setOptionsAsync({
   });
 
 const options = {
+  //Solo iOS
   requiredBillingAddressFields: 'full',
   prefilledInformation: {
     billingAddress: {
       name: 'Gunilla Haugeh',
-      line1: 'Canary Place',
-      line2: '3',
-      city: 'Macon',
-      state: 'Georgia',
-      country: 'US',
-      postalCode: '31217',
+      addressLine1: 'Canary Place',
+      addressLine2: '3',
+      addressCity: 'Macon',
+      addressState: 'Georgia',
+      addressCountry: 'US',
+      addressZip: '31217',
     },
   },
 };
+
+const params = {
+  type: 'alipay',
+  amount: 5,
+  currency: 'EUR'
+};
+
 
 export default class PaysSc extends PureComponent {
     state = {
       loading: false,
       paymentMethod: null,
     }
-  
+    
     handleCardPayPress = async () => {
       try {
         this.setState({ loading: true, paymentMethod: null })
   
         const paymentMethod = await Stripe.paymentRequestWithCardFormAsync(options)
-  
+        //const source = await Stripe.createSourceWithParamsAsync(params);
+        console.log("Payment Request: ", paymentMethod)
+        //console.log("Source: ", source)
         this.setState({ loading: false, paymentMethod })
       } catch (error) {
         this.setState({ loading: false })
       }
+    }
+
+    makePayment = async() => {
+      this.setState({loading: true})
+      axios({
+        method:'POST',
+        url:'https://us-central1-hk-directions.cloudfunctions.net/completePaymentWithStripe',
+        data:{
+          amount: this.props.amount,
+          currency:'usd',
+          token:this.state.token
+        }
+      }).then(response => {
+        console.log("Response PaysSc: ", response)
+        this.setState({loading: false})
+      })
     }
   
     render() {
@@ -50,8 +77,8 @@ export default class PaysSc extends PureComponent {
   
       return (
         <View style={styles.container}>
-          <Text style={styles.header}>Card Form Example</Text>
-          <Text style={styles.instruction}>Click button to show Card Form dialog.</Text>
+          <Text style={styles.header}>PAGO</Text>
+          <Text style={styles.instruction}>Total a pagar: $ {this.props.amount*0.01}</Text>
           <Button
             text="Enter you card and pay"
             loading={loading}
@@ -59,7 +86,15 @@ export default class PaysSc extends PureComponent {
           />
           <View style={styles.paymentMethod} >
             {paymentMethod && (
-              <Text style={styles.instruction}>Payment Method: {JSON.stringify(paymentMethod)}</Text>
+              <View>
+                <Button 
+                  text="Confirmar Pago" 
+                  loading={loading} 
+                  onPress={()=>{this.makePayment(), this.props.payNotification()}}
+                />
+              </View>
+              
+            
             )}
           </View>
         </View>
