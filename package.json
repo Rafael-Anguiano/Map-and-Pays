@@ -37,7 +37,8 @@
     "react-native-screens": "^2.15.2",
     "react-native-web": "~0.13.12",
     "stripe": "^8.135.0",
-    "tipsi-stripe": "^8.0.2"
+    "tipsi-stripe": "^8.0.2",
+    "react-native-webview": "11.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
