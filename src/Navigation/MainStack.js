@@ -58,7 +58,8 @@ export default class MainStack extends React.Component {
                         {props => <PaysSc 
                             {...props} 
                             amount={this.props.amount}
-                            payNotification= {this.props.payNotification}
+                            payconfirmed= {this.props.payconfirmed}
+                            settingTime={this.props.settingTime}
                             />}
                     </Stack.Screen>
                 </Stack.Navigator>

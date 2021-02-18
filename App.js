@@ -28,7 +28,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig); //Inicialización de firebase
 //Variables para base de datos en firebase
 const dbh = firebase.firestore();
-const consulta = dbh.collection('direccion').doc('iP2Kd5R7KkWt5SQzzdwo');
+const consulta = dbh.collection('users').doc('user').collection('direccion')
+  .doc('pZpkLhO34ahqRxb8gnz9');
+const pagos = dbh.collection('users').doc('user').collection('pagos')
+.doc('zev9FKnhFJbNrpU8WxEX');
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -60,7 +63,10 @@ export default class App extends React.Component {
         expoPushToken: null,
         timeinterval: 2000,
         //Pagos
-        amount: null
+        amount: null,
+        dt: null,
+        tm: null,
+        payStatus: false
     }
   }
 
@@ -115,6 +121,22 @@ export default class App extends React.Component {
                 this.sendPushNotification() //Envío a función para mandar notificación
               }
           }
+      }
+      if(this.state.payStatus !== false){
+        const today = new Date()
+        const hoy = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear()
+        const hora = today.getHours()+':'+today.getMinutes()
+        console.log("hour: ", hora, "day: ", hoy)
+        this.setState({dt: hoy, tm:hora})
+        console.log("Hora: ", this.state.tm, "Día", this.state.dt)
+        //Envío a base de datos
+        await pagos.set({
+          amount: this.state.amount,
+          date: this.state.dt,
+          time: this.state.tm
+        })
+
+        this.setState({payStatus: false})
       }
     console.log("DidUpdate")
   }
@@ -185,6 +207,11 @@ export default class App extends React.Component {
     })
   }
 
+  //Agregando día y hora
+  settingTime = () => {
+    this.setState({payStatus: true})
+  }
+
   //Prepara todo antes de quitar la pantalla de carga
   prepareResources = async () => {
     try {
@@ -250,11 +277,11 @@ export default class App extends React.Component {
     console.log("Envío notificación")
   }
 
-  async payNotification(){
+  payconfirmed(){
     Notifications.scheduleNotificationAsync({
       content: {
         title: "Proceso de Pedido",
-        body: 'Su pedido se está procesando:'
+        body: 'Su pedido se está procesando'
       },
       trigger: {
         seconds: 30,
@@ -293,7 +320,8 @@ export default class App extends React.Component {
         userLon={this.state.userLon}
         address={this.address}
         amount={this.state.amount}
-        payNotification={this.payNotification}
+        payconfirmed={this.payconfirmed}
+        settingTime={this.settingTime}
       />
     );
   }

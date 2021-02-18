@@ -2,7 +2,7 @@
  * Esta es la Primera pantalla de la sección de pagos.
  */
 import React, {PureComponent} from 'react'
-import {StyleSheet, Text, View} from 'react-native'
+import {StyleSheet, Text, View, Modal, TouchableHighlight} from 'react-native'
 import Button from '../../components/Button'
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import axios from 'axios'
@@ -40,6 +40,7 @@ export default class PaysSc extends PureComponent {
     state = {
       loading: false,
       paymentMethod: null,
+      modalVisible: false
     }
     
     handleCardPayPress = async () => {
@@ -69,12 +70,13 @@ export default class PaysSc extends PureComponent {
       }).then(response => {
         console.log("Response PaysSc: ", response)
         this.setState({loading: false})
+        this.setState({modalVisible:true})
       })
     }
   
     render() {
-      const { loading, paymentMethod } = this.state
-  
+      const { loading, paymentMethod, modalVisible } = this.state
+      const { navigation } = this.props  //Para navegación entre pantallas
       return (
         <View style={styles.container}>
           <Text style={styles.header}>PAGO</Text>
@@ -90,13 +92,37 @@ export default class PaysSc extends PureComponent {
                 <Button 
                   text="Confirmar Pago" 
                   loading={loading} 
-                  onPress={()=>{this.makePayment(), this.props.payNotification()}}
+                  onPress={()=>{
+                    this.makePayment(), 
+                    this.props.payconfirmed(), 
+                    this.props.settingTime()
+                  }}
                 />
               </View>
-              
-            
             )}
           </View>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              navigation.navigate('Home')
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Gracias por su compra!</Text>
+
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                  onPress={() => {
+                    //this.setState({modalVisible: false})
+                    navigation.navigate('Home')
+                  }}>
+                  <Text style={styles.textStyle}>CLOSE</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
         </View>
       )
     }
@@ -120,6 +146,42 @@ export default class PaysSc extends PureComponent {
     },
     paymentMethod: {
       height: 20,
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 22,
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+    openButton: {
+      backgroundColor: '#F194FF',
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+    },
+    textStyle: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center',
     },
   })
   
