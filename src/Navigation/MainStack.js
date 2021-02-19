@@ -11,6 +11,7 @@ import SecondSc from '../screens/SecondSc'
 import MapSc from '../screens/MapSc'
 import DecitionSc from '../screens/DecitionSc'
 import PaysSc from '../screens/PaysSc'
+import AuthSc from '../auth/AuthSc'
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,12 @@ export default class MainStack extends React.Component {
         return (
             <NavigationContainer>
                 <Stack.Navigator>
+                    <Stack.Screen name="Auth" options={{title: 'Auth', headerShown:false}}>
+                        {props => <AuthSc 
+                            {...props} 
+                            
+                            />}
+                    </Stack.Screen>
                     <Stack.Screen name="Home" options={{title: 'Decition', headerShown:false}}>
                         {props => <DecitionSc 
                             {...props} 

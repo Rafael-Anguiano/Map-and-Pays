@@ -14,6 +14,7 @@ import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 //Views Importadas
 import MainStack from './src/Navigation/MainStack';
+import Auth from './src/auth/AuthSc';
 
 //Configuración para firebase
 const firebaseConfig = {
@@ -348,3 +349,29 @@ async function downloadAssets() {}
       },
       body: JSON.stringify(message),
     });*/
+
+
+/*
+<MainStack
+        //Para Main
+        direccion={this.state.direccion} 
+        disable={this.state.disable}
+        //Para Secund
+        street={this.state.street}
+        number={this.state.number} 
+        district={this.state.district}  
+        city={this.state.city} 
+        addStreet={this.addStreet} 
+        addNumber={this.addNumber} 
+        addDistrict={this.addDistrict} 
+        addCity={this.addCity} 
+        addToDirections={this.addToDirections}
+        //Para Map
+        userLat={this.state.userLat} 
+        userLon={this.state.userLon}
+        address={this.address}
+        amount={this.state.amount}
+        payconfirmed={this.payconfirmed}
+        settingTime={this.settingTime}
+      />
+*/
