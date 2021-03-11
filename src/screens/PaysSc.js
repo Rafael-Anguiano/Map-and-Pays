@@ -3,7 +3,7 @@
  */
 import React, {PureComponent} from 'react'
 import {StyleSheet, Text, View, Modal, TouchableHighlight} from 'react-native'
-import Button from '../../components/Button'
+import Button from '../components/Button'
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import axios from 'axios'
 //import stripe from 'tipsi-stripe';
