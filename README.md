@@ -1,7 +1,7 @@
 # Directions
 
 ## Description
-Mobile App to learn how to implement a Mapview, work with a Marker and implement payments with Stripe.
+Mobile App to learn how to implement a Mapview, work with a Marker and payments with Stripe.
 
 ---
 
